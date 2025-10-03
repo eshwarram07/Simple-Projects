@@ -1,0 +1,78 @@
+import java.util.*;
+
+class Question {
+    String questionText;
+    List<String> options;
+    int correctAnswer; 
+
+    public Question(String questionText, List<String> options, int correctAnswer) {
+        this.questionText = questionText;
+        this.options = options;
+        this.correctAnswer = correctAnswer;
+    }
+
+    public boolean checkAnswer(int answer) {
+        return answer == correctAnswer;
+    }
+
+    public void displayQuestion() {
+        System.out.println("\n" + questionText);
+        for (int i = 0; i < options.size(); i++) {
+            System.out.println((i + 1) + ". " + options.get(i));
+        }
+    }
+}
+
+public class QuizApp {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Step 1: Create questions
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("Which language is used for Android Development?",
+                Arrays.asList("Python", "Java", "Swift", "C#"), 2));
+        questions.add(new Question("Which keyword is used to inherit a class in Java?",
+                Arrays.asList("implement", "inherits", "extends", "super"), 3));
+        questions.add(new Question("What does JVM stand for?",
+                Arrays.asList("Java Virtual Machine", "Java Variable Method", "Just Virtual Mode", "Java Visual Module"), 1));
+        questions.add(new Question("Which collection does not allow duplicate elements?",
+                Arrays.asList("List", "Set", "Map", "Queue"), 2));
+        questions.add(new Question("Which company developed Java?",
+                Arrays.asList("Sun Microsystems", "Microsoft", "Google", "Apple"), 1));
+
+        int score = 0;
+
+        // Step 2: Run quiz
+        System.out.println("=== Welcome to the Online Quiz ===");
+
+        for (int i = 0; i < questions.size(); i++) {
+            Question q = questions.get(i);
+            q.displayQuestion();
+
+            System.out.print("Your answer (1-4): ");
+            int ans = sc.nextInt();
+
+            if (q.checkAnswer(ans)) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Wrong! Correct answer: " + q.correctAnswer + ". " + q.options.get(q.correctAnswer - 1));
+            }
+        }
+
+        // Step 3: Show results
+        System.out.println("\n=== Quiz Over ===");
+        System.out.println("Your Score: " + score + "/" + questions.size());
+
+        if (score == questions.size()) {
+            System.out.println("Excellent! Full marks.");
+        } else if (score >= questions.size() / 2) {
+            System.out.println("Good job, keep practicing!");
+        } else {
+            System.out.println("Better luck next time. Keep learning!");
+        }
+
+        sc.close();
+    }
+}
